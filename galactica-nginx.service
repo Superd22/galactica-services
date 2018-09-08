@@ -5,6 +5,7 @@ Description=Galactica Nginx/LetsEncrypt auto reverse proxy
 EnvironmentFile=/home/opt/docker-compose-letsencrypt-nginx-proxy-companion/.env
 WorkingDirectory=/home/opt/docker-compose-letsencrypt-nginx-proxy-companion/
 TimeoutStartSec=0
-ExecStart=-/home/opt/docker-compose-letsencrypt-nginx-proxy-companion/start.sh
+ExecStartPre=-/usr/bin/docker network create webproxy
+ExecStart=-/usr/bin/docker-compose up
 [Install]
 WantedBy=multi-user.target
