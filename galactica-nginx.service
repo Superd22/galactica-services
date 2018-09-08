@@ -1,0 +1,10 @@
+# Launch Nginx and LetsEncrypt as reverse proxies for any docker container
+[Unit]
+Description=Galactica Nginx/LetsEncrypt auto reverse proxy
+[Service]
+EnvironmentFile=/home/opt/docker-compose-letsencrypt-nginx-proxy-companion/.env
+WorkingDirectory=/home/opt/docker-compose-letsencrypt-nginx-proxy-companion/
+TimeoutStartSec=0
+ExecStart=-/home/opt/docker-compose-letsencrypt-nginx-proxy-companion/start.sh
+[Install]
+WantedBy=multi-user.target

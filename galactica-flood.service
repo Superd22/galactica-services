@@ -1,0 +1,12 @@
+# Launch RTorrent for seedbox and Flood for web access
+[Unit]
+Description=Galactica Flood and RTorrent 
+[Service]
+EnvironmentFile=/home/pariverse/server-compose/pariverse/push/.env
+WorkingDirectory=/home/pariverse/server-compose/pariverse/push
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker login -u ${GITLAB_DEPLOY_USER} -p ${GITLAB_DEPLOY_PASSWORD} registry.gitlab.com
+ExecStartPre=-/opt/bin/docker-compose pull
+ExecStart=-/opt/bin/docker-compose up
+[Install]
+WantedBy=multi-user.target
