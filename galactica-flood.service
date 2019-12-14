@@ -5,6 +5,6 @@ Description=Galactica Flood and RTorrent
 EnvironmentFile=/home/opt/flood/.env
 WorkingDirectory=/home/opt/flood
 TimeoutStartSec=0
-ExecStart=-/usr/bin/docker run -v /home/raid/000.Perso:/data -v /home/opt/flood/db:/flood-db -v /home/opt/flood/rtorrent:/config/rtorrent -e VIRTUAL_HOST=torrent.galactica-nas.ddns.net,torrent.galactica -e VIRTUAL_PORT=3000 --network=webproxy xataz/rtorrent-flood
+ExecStart=-/usr/bin/docker run -v /mnt/raid/0.SHARED:/data -v /home/opt/flood/db:/flood-db -v /home/opt/flood/rtorrent:/config/rtorrent -e VIRTUAL_HOST=torrent.galactica-nas.ddns.net,torrent.galactica -e VIRTUAL_PORT=3000 --network=webproxy xataz/rtorrent-flood --name MainFloodUI
 [Install]
 WantedBy=multi-user.target
