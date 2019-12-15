@@ -1,0 +1,8 @@
+# Launch NoIP for remote access
+[Unit]
+Description=Galactica NoIP auto DNS
+[Service]
+TimeoutStartSec=0
+ExecStart=-/usr/local/bin/noip2
+[Install]
+WantedBy=multi-user.target
