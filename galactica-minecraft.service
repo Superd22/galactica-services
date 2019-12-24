@@ -1,0 +1,15 @@
+# Launch a Minecraft server with McMyAdmin
+[Unit]
+Description=Galactica MinecraftServer with McMyAdmin interface
+[Service]
+EnvironmentFile=/home/raid/opt/minecraft
+WorkingDirectory=/home/raid/opt/minecraft
+TimeoutStartSec=0
+ExecStart=-/usr/bin/ docker create --name=mcmyadmin \
+ -v /home/opt/minecraft/server:/minecraft \
+ -p 25565:25565 \
+ -e VIRTUAL_HOST=minecraft.galactica-nas.ddns.net,minecraft.galactica -e VIRTUAL_PORT=8080 \
+ --network=webproxy \
+ linuxserver/mcmyadmin2
+[Install]
+WantedBy=multi-user.target
