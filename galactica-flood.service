@@ -5,6 +5,6 @@ Description=Galactica Flood and RTorrent
 EnvironmentFile=/home/opt/flood/.env
 WorkingDirectory=/home/opt/flood
 TimeoutStartSec=0
-ExecStart=-/usr/bin/docker run -v /mnt/raid/0.SHARED:/data -v /home/opt/flood/db:/flood-db -v /home/opt/flood/rtorrent:/config/rtorrent -e VIRTUAL_HOST=torrent.galactica-nas.ddns.net,torrent.galactica,torrent.davidfain.fr,torrent.davidfain.com -e VIRTUAL_PORT=3000 --network=webproxy superd22/flood
+ExecStart=-/usr/bin/docker run --network="webproxy" --name flood -v /mnt/raid/0.SHARED:/data -v /home/opt/flood/db:/flood-db -v /home/opt/flood/rtorrent:/config/rtorrent -l traefik.http.routers.flood.rule=Host(`torrent.davidfain.fr`,`torrent.davidfain.com`) -l traefik.http.routers.flood.tls=true -l traefik.http.routers.flood.tls.certresolver=le superd22/flood
 [Install]
 WantedBy=multi-user.target

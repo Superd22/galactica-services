@@ -1,9 +1,9 @@
 # Launch Nginx and LetsEncrypt as reverse proxies for any docker container
 [Unit]
-Description=Galactica Nginx/LetsEncrypt auto reverse proxy
+Description=Galactica traeffik auto reverse proxy
 [Service]
-EnvironmentFile=/home/opt/docker-compose-letsencrypt-nginx-proxy-companion/.env
-WorkingDirectory=/home/opt/docker-compose-letsencrypt-nginx-proxy-companion/
+#EnvironmentFile=/home/david/docker-compose-letsencrypt-nginx-proxy-companion/.env
+WorkingDirectory=/home/david/galactica.target.wants/traefik/
 TimeoutStartSec=0
 ExecStartPre=-/usr/bin/docker network create webproxy
 ExecStart=-/usr/bin/docker-compose up

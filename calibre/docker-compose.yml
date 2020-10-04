@@ -1,0 +1,33 @@
+version: "3"
+
+networks:
+    default:
+        external:
+            name: webproxy
+services:
+  calibre:
+    image: linuxserver/calibre
+    container_name: calibre
+    expose:
+      - 8080
+      - 8081
+    environment:
+      - TZ=Europe/Paris
+      - GUAC_USER=${GUAC_USER}
+      - GUAC_PASS=${GUAC_PASS}
+    labels:
+      # Books is the actual calibre public web interface
+      - traefik.http.routers.calibre-web.rule=Host(`books.davidfain.com`,`books.davidfain.fr`)
+      - traefik.http.routers.calibre-web.service=calibre-web
+      - traefik.http.services.calibre-web.loadbalancer.server.port=8081
+      - traefik.http.routers.calibre-web.tls=true
+      - traefik.http.routers.calibre-web.tls.certresolver=le
+      # Calibre is the protected backend
+      - traefik.http.routers.calibre.rule=Host(`calibre.davidfain.com`,`calibre.davidfain.fr`)
+      - traefik.http.routers.calibre.service=calibre
+      - traefik.http.services.calibre.loadbalancer.server.port=8080
+      - traefik.http.routers.calibre.tls=true
+      - traefik.http.routers.calibre.tls.certresolver=le
+    volumes:
+      - /mnt/raid/0.SHARED/3.Books/:/config
+    restart: unless-stopped
