@@ -7,7 +7,6 @@ networks:
 services:
   calibre:
     image: linuxserver/calibre
-    container_name: calibre
     expose:
       - 8080
       - 8081
@@ -17,11 +16,11 @@ services:
       - GUAC_PASS=${GUAC_PASS}
     labels:
       # Books is the actual calibre public web interface
-      - traefik.http.routers.calibre-web.rule=Host(`books.davidfain.com`,`books.davidfain.fr`)
-      - traefik.http.routers.calibre-web.service=calibre-web
-      - traefik.http.services.calibre-web.loadbalancer.server.port=8081
-      - traefik.http.routers.calibre-web.tls=true
-      - traefik.http.routers.calibre-web.tls.certresolver=le
+      - traefik.http.routers.calibre-web-legacy.rule=Host(`calibre-web.davidfain.com`,`calibre-web.davidfain.fr`)
+      - traefik.http.routers.calibre-web-legacy.service=calibre-web-legacy
+      - traefik.http.services.calibre-web-legacy.loadbalancer.server.port=8081
+      - traefik.http.routers.calibre-web-legacy.tls=true
+      - traefik.http.routers.calibre-web-legacy.tls.certresolver=le
       # Calibre is the protected backend
       - traefik.http.routers.calibre.rule=Host(`calibre.davidfain.com`,`calibre.davidfain.fr`)
       - traefik.http.routers.calibre.service=calibre
@@ -30,4 +29,25 @@ services:
       - traefik.http.routers.calibre.tls.certresolver=le
     volumes:
       - /mnt/raid/0.SHARED/3.Books/:/config
+    restart: unless-stopped
+  calibre-web:
+    image: ghcr.io/linuxserver/calibre-web
+    container_name: calibre-web
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - DOCKER_MODS=linuxserver/calibre-web:calibre
+    labels:
+      # Books is the actual calibre public web interface
+      - traefik.http.routers.calibre-web.rule=Host(`books.davidfain.com`,`books.davidfain.fr`)
+      - traefik.http.routers.calibre-web.service=calibre-web
+      - traefik.http.services.calibre-web.loadbalancer.server.port=8083
+      - traefik.http.routers.calibre-web.tls=true
+      - traefik.http.routers.calibre-web.tls.certresolver=le
+    volumes:
+      - ./web-data/:/config
+      - /mnt/raid/0.SHARED/3.Books/Calibre Library/:/books
+    ports:
+      - 8083:8083
     restart: unless-stopped
