@@ -1,0 +1,12 @@
+http:
+  routers:
+    cockpit:
+      rule: "Host(`cockpit.adm.davidfain.fr`,`cockpit.adm.davidfain.com`)"
+      service: cockpit
+      tls:
+        certResolver: le
+  services:
+    cockpit:
+      loadBalancer:
+        servers:
+        - url: "http://172.21.0.1:9090/"
