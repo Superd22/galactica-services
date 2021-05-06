@@ -43,6 +43,9 @@ services:
       - traefik.http.services.calibre-web-ui.loadbalancer.server.port=8083
       - traefik.http.routers.calibre-web-ui.tls=true
       - traefik.http.routers.calibre-web-ui.tls.certresolver=le
+      # http (not secure) for calibre images
+      - traefik.http.routers.calibre-web-ui-http.rule=Host(`books.davidfain.com`,`books.davidfain.fr`)
+      - traefik.http.routers.calibre-web-ui-http.service=calibre-web-ui
     volumes:
       - ./web-data/:/config
       - /mnt/raid/0.SHARED/3.Books/Calibre Library/:/books
